@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title></title>
+        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css" type="text/css" />
+        <link rel="stylesheet" href="css/cropper-estrutura.css" type="text/css" media="all" />
+        <link rel="stylesheet" href="css/cropper-estilo.css" type="text/css" media="all" />
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="js/jquery.cropper.0.1.js"></script>
+        <script type="text/javascript">
+            //var Imagem = 'OLD/2-road.jpg';
+            $(function() {
+                        var imagem = 'test.jpg';
+                        $("#cropper").cropper({
+                            imagemOriginal : imagem,
+                            quandoSalvar   : function(arquivoFinal) {
+                                $('#imagemFinal').html('<img src='+arquivoFinal+' />');
+                            }
+                        });                
+            });
+        </script>
+    </head>
+    <body>
+        <div id="cropper"></div>
+        <h1>Cropper</h1>
+        <p>Teste do plugin jQuery para um Cropper</p>
+        <hr/>
+         <h1>Demonstra&ccedil;&atilde;o</h1>
+        <p>Clica no Enviar Imagem pra fazer o upload e aí abrir o Cropper</p>
+        <p>Tu ainda pode clicar no thumb, para editar de novo.</p>
+
+        <input type="file" name="file_upload" id="file_upload" />
+
+        <div style="display:table; width:100%">
+            <div style="width:45%; float:left;">
+                <h2>Thumb da imagem Original</h2>
+                <div id="imagemOriginal"></div>
+            </div>
+            <div style="width:45%; float:right;">
+                <h2>Imagem final</h2>
+                <div id="imagemFinal"></div>
+            </div>
+        </div>
+        
+
+        <hr/>
+        <h2>B&aacute;sico</h2>
+        <pre>
+            $("#cropper").cropper({
+                imagemOriginal : imagem,
+                imagemFinal    : 'Mudei a imagem final',
+                quandoSalvar   : function(arquivoFinal) {alert(arquivoFinal)}
+            }); 
+        </pre> 
+        <h2>Par&acirc;metros</h2>
+        <pre>
+        var defaults = {
+            largura         : 500, //largura da imagem final
+            altura          : 500, /altura da imagem final
+            imagemOriginal  : null, //imagem original a ser editada
+            imagemFinal     : 'novaImagem.jpg', //nome do arquivo de imagem pra retorno
+            filtros         : true, //habilita os filtros
+            getWH           : 'getWH.php', //pra pegar largura e altura da imagem
+            preVisualizar   : 'previsualizar.php',
+            wImg            : 0, // se getWH for null, definir wImg = largura da imagem original
+            hImg            : 0, // se getWH for null, definir hImg = altura da imagem original
+            quandoSalvar    : function(arquivoFinal) {}, //função de retorno quando clicar em ~salvar~
+            quandoCancelar  : function(arquivoFinal) {} //função de retorno quando clicar em ~usar original~
+        };
+        </pre>
+
+       
+    </body>
+</html>

@@ -1,0 +1,53 @@
+.cropper {
+    background-image: url('../imgs/loading.gif'); 
+    background-position: center center; 
+    background-repeat: no-repeat;
+}
+.cropper-top-bar {
+    background-image:url('../imgs/bg-top-bar.png');
+    border-bottom:1px solid #000;
+}
+.cropper-box-img {
+    background-image:url('../imgs/bg-box-img.jpg');
+    border:1px solid #FFF;
+    box-shadow:0px 0px 20px #000;
+}
+.cropper-crop {
+    border:2px dashed #FFF;
+    box-shadow:0px 0px 3px 3px #000;
+    cursor: move;
+    opacity:1;
+    background-image:url('../imgs/spacer.gif');
+}
+.cropper-input {
+    background-color:transparent; 
+    border: 0; 
+    color:#FFF; 
+    width:40px; 
+}
+.cropper fieldset{ }
+.cropper-draggable {cursor: move;}
+
+.cropper-sombra-pre {
+    background-color:#000; 
+    opacity: 0.95; 
+}
+.cropper-modal-pre {
+    background-color:#FFF; 
+    background-image: url('../imgs/loading.gif'); 
+    background-position: center center;
+    background-repeat: no-repeat;
+    border:10px solid #FFF; 
+    box-shadow:2px 2px 4px #000;
+}
+
+.cropper-filtros {
+    background-color:#F1F1F1;
+    box-shadow:2px 2px 4px #000;
+    border-bottom:1px solid #FFF;
+    border-right:1px solid #FFF;
+
+}
+
+#cropper-btn-salvar { }
+#cropper-btn-previsualizar {  }

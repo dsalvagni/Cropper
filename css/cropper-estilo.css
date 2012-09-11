@@ -28,7 +28,7 @@
 .cropper fieldset{ }
 .cropper-draggable {cursor: move;}
 
-.cropper-sombra-pre {
+.cropper-shadow-pre {
     background-color:#000; 
     opacity: 0.95; 
 }
@@ -41,7 +41,7 @@
     box-shadow:2px 2px 4px #000;
 }
 
-.cropper-filtros {
+.cropper-options {
     background-color:#F1F1F1;
     box-shadow:2px 2px 4px #000;
     border-bottom:1px solid #FFF;

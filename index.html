@@ -14,9 +14,9 @@
             $(function() {
                         var imagem = 'test.jpg';
                         $("#cropper").cropper({
-                            imagemOriginal : imagem,
-                            quandoSalvar   : function(arquivoFinal) {
-                                $('#imagemFinal').html('<img src='+arquivoFinal+' />');
+                            imageOriginal : imagem,
+                            onsave   : function(finalFile) {
+                                $('#imagemFinal').html('<img src='+finalFile+' />');
                             }
                         });                
             });

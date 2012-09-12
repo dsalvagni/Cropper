@@ -12,7 +12,7 @@
             previewFile     : 'preview.php',
             wImg            : 0,
             hImg            : 0,
-            buttons         : { save: "Save", cancel:"Cancel", preview:"Preview", edit:"Edit", original:"Use Original File"},
+            buttons         : { save: "Save", cancel:"Cancel", preview:"Preview", closePreview:"Close Preview", original:"Use Original File"},
             onsave          : function(finalFile) {},
             oncancel        : function(finalFile) {}
         };
@@ -20,7 +20,7 @@
         options = $.extend(defaults, options);
         
         var closeCropper = function() {
-            $('#cropper').html('');
+            $('#cropper').html('').hide();
             $('#cropper-shadow-pre,#cropper-modal-pre,#cropper-box-options').remove();
             
         }
@@ -49,17 +49,17 @@
             _html += '<div class="cropper-top-bar">';
             //Left
             _html += '<div class="cropper-left-top-bar">';
-            _html += '<div class="cropper-slider-value">';
-            _html += '<input type="text" id="cropper-image-zoom" class="cropper-input" readonly/>';
-            _html += '</div>';
-            _html += '<div class="cropper-slider">';
-            _html += '<div id="cropper-slider-image"></div>';
-            _html += '</div>';
+            _html += '<a href="javascript:;" id="cropper-btn-preview" class="cropper-btn cropper-btn-primary">'+options.buttons.preview+'</a>';            
+            _html += '<a href="javascript:;" id="cropper-btn-cancel" class="cropper-btn">'+options.buttons.cancel+'</a>';
             _html += '</div>';
             //Right Botões
             _html += '<div class="cropper-right-top-bar">';
-            _html += '<a href="javascript:void(0)" id="cropper-btn-cancel" class="cropper-btn">'+options.buttons.cancel+'</a>';
-            _html += '<a href="javascript:void(0)" id="cropper-btn-preview" class="cropper-btn cropper-btn-primary">'+options.buttons.preview+'</a>';
+            _html += '<div class="cropper-slider-value right">';
+            _html += '<input type="text" id="cropper-image-zoom" class="cropper-input" readonly/>';
+            _html += '</div>';
+            _html += '<div class="cropper-slider right">';
+            _html += '<div id="cropper-slider-image" class="right"></div>';
+            _html += '</div>';
             _html += '</div>';
             _html += '</div>';
 
@@ -74,19 +74,17 @@
             
             
             $(obj).replaceWith(_html);
-            
-        
             $('#cropper-btn-preview').click(function() {
                 preview();
             });
             $('#cropper-btn-cancel').click(function() {
-                if (typeof options.quandoSalvar == 'function') {
-                    options.quandoCancelar.call('',options.imageOriginal);
+                if (typeof options.oncancel == 'function') {
+                    options.oncancel.call('',options.imageOriginal);
                     closeCropper();
                 }
             });        
                                 
-            center(options.wImg,options.hImg);
+            center(options.wImg,options.hImg,true);
             build();
         }
 
@@ -115,31 +113,33 @@
                 }
             });
             $( "#cropper-image-zoom" ).val($( "#cropper-slider-image" ).slider( "value" ));
-            
+            $(obj).show();
         }
         
         
-        //Centraliza a imagem
-        var center = function(w,h){
+        //Center image nd crop
+        var center = function(w,h,crop){
             var boxImgW = $('.cropper-box-img').width();
             var boxImgH = $('.cropper-box-img').height();
             var newTop = (boxImgH/2)-(h/2);
             var newLeft = (boxImgW/2)-(w/2);
-            var newCropTop = (boxImgH/2)-(options.height/2);
-            var newCropLeft = (boxImgW/2)-(options.width/2);
 
             $('#cropper-img').css('top',(newTop)+'px');
             $('#cropper-img').css('left',(newLeft)+'px');    
 
-            $('.cropper-crop').css('top',(newCropTop)+'px');
-            $('.cropper-crop').css('left',(newCropLeft)+'px');  
+            if(crop) {
+                var newCropTop = (boxImgH/2)-(options.height/2);
+                var newCropLeft = (boxImgW/2)-(options.width/2);
+                $('.cropper-crop').css('top',(newCropTop)+'px');
+                $('.cropper-crop').css('left',(newCropLeft)+'px');  
+            }
         }
-        //Altera o tamanho da imagem com o slider de zoom
+        //Change the image zoom with slider ui
         var resize = function(percent,w,h){
             var newW = (w*percent)/100;
             var newH = (h*percent)/100;
             $('#cropper-img').width(newW+'px').height(newH+'px');            
-            center(newW,newH);
+            center(newW,newH,false);
         }
 
 
@@ -147,7 +147,7 @@
             var _html = '<div id="cropper-box-options" class="cropper-options">';
             _html += '<a href="javascript:;" id="cropper-btn-save" class="cropper-btn cropper-btn-primary">'+options.buttons.save+'</a>';
             _html += '<a href="javascript:;" id="cropper-btn-original" class="cropper-btn">'+options.buttons.original+'</a>';
-            _html += '<a href="javascript:;" id="cropper-btn-edit" class="cropper-btn">'+options.buttons.edit+'</a>';
+            _html += '<a href="javascript:;" id="cropper-btn-edit" class="cropper-btn">'+options.buttons.closePreview+'</a>';
             _html += '</div>';
             
             if(!document.getElementById('cropper-box-options')){
@@ -160,16 +160,26 @@
         var preview = function(){
             openOptions();
             var _url = buildUrlImg();
-            var _margin = '-'+(Math.round(options.height/2)+10)+'px 0 0 -'+(Math.round((options.width)/2))+'px';
+
             
-            var _img = '<img src="'+_url+'" class="cropper-box-img-img" style="width:'+options.width+'px; height:'+options.height+'px;" />';
+            var imgW=options.width;
+            var imgH=options.height;
+            if(!options.aspectRatio) {
+                imgW=$('.cropper-crop').width();
+                imgH=$('.cropper-crop').height();   
+            }
 
-            var _html = '<div class="cropper-shadow-pre" id="cropper-shadow-pre"></div><div class="cropper-modal-pre" id="cropper-modal-pre" style="margin:'+_margin+'; width:'+options.height+'px; height:'+options.height+'px;">'+_img+'</div>';
+            var _margin = '-'+(Math.round(imgH/2)+10)+'px 0 0 -'+((Math.round(imgW)/2)+10)+'px';
+            
+            var _img = '<img src="'+_url+'" class="cropper-box-img-img" style="width:'+imgW+'px; height:'+imgH+'px;" />';
 
-            if(!document.getElementById('cropper-modal-pre')){
+            var _html = '<div class="cropper-shadow-pre" id="cropper-shadow-pre"></div><div class="cropper-modal-pre" id="cropper-modal-pre" style="margin:'+_margin+'; width:'+imgW+'px; height:'+imgH+'px;">'+_img+'</div>';
+
+//            if(!document.getElementById('cropper-modal-pre')){
                 $('body').append(_html);
                 $('#cropper-shadow-pre,#cropper-btn-edit').live('click',function() {
-                    $('#cropper-shadow-pre,#cropper-modal-pre,#cropper-box-options').hide();
+                    $('#cropper-box-options').hide();
+                    $('#cropper-shadow-pre,#cropper-modal-pre').remove();
                 });
                 $('#cropper-btn-save').live('click',function() {
                     save();
@@ -181,9 +191,9 @@
                     }
                 });
         
-            } else {
-                $('#cropper-modal-pre').html(_img);
-            }
+            //} else {
+                //$('#cropper-modal-pre').html(_img);
+            //}
             
             $('#cropper-shadow-pre,#cropper-modal-pre').show();
             
@@ -248,10 +258,15 @@
 
             crop.x=difX;
             crop.y=difY;
-            //w e h da imagem final
+
+            if(options.aspectRatio) {
             crop.wFinal=options.width;
             crop.hFinal=options.height;
-            //w e h atual
+            } else{
+            crop.wFinal=cropW;
+            crop.hFinal=cropH;   
+            }
+            
             crop.w=cropW;
             crop.h=cropH;
             
@@ -267,7 +282,7 @@
             srcImg += '?cropX='+data.x+'&cropY='+data.y;
             //crop WFinal e HFinal
             srcImg += '&cropWFinal='+data.wFinal+'&cropHFinal='+data.hFinal;
-            //crop WAtual e HAtual
+            //crop W e H
             srcImg += '&cropW='+data.w+'&cropH='+data.h;
             //scala
             srcImg += '&scale='+data.scale;
@@ -277,7 +292,7 @@
             return srcImg;
         }
 
-        //INICIALIZA
+        //Inicialize
         return this.each(function(){
             if(options.imageOriginal==null) {
                 alert('Ops! Where is the image?');
@@ -288,7 +303,6 @@
                     image:options.imageOriginal
                 },function(data){
                     if(data!=0){
-                        //alert(data);
                         var imageSize = data.split(',');
                     
                         options.wImg = imageSize[0];

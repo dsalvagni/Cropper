@@ -9,6 +9,7 @@
     border-top:1px solid #FFF;
     border-left:1px solid #FFF;
     border-right:1px solid #FFF;
+    border-bottom:1px solid #CCC;
 }
 .cropper-box-img {
     background-image:url('../imgs/bg-box-img.jpg');
@@ -32,7 +33,7 @@
 .cropper-draggable {cursor: move;}
 
 .cropper-shadow-pre {
-    background-color:#000;
+    background-image:url('../imgs/bg-box-img.jpg');
 }
 .cropper-modal-pre {
     background-color:#FFF; 
@@ -40,11 +41,25 @@
     background-position: center center;
     background-repeat: no-repeat;
     border:10px solid #FFF; 
+    box-shadow:0px 0px 5px 4px #999;
 }
 
 .cropper-options {
     background-color:#F1F1F1;
+    border-bottom:1px solid #CCC;
 }
 
 #cropper-btn-salvar { }
 #cropper-btn-previsualizar {  }
+
+.cropper-btn {
+    font-size: 12px;
+    font-family: sans-serif;
+    border:1px solid #CCC;
+    background-color: #FFF;
+}
+.cropper-btn-primary {
+    background-color:#0099FF;
+    color:#FFF;
+    border:1px solid blue;
+}

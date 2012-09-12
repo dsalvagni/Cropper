@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title></title>
-        
+
         <link rel="stylesheet" href="css/jquery-ui-1.8.23.custom.css" type="text/css" media="screen" />
         <link rel="stylesheet" href="css/cropper-estrutura.css" type="text/css" media="screen" />
         <link rel="stylesheet" href="css/cropper-estilo.css" type="text/css" media="screen" />
@@ -12,10 +12,14 @@
         <script type="text/javascript" src="js/jquery.cropper.0.1.js"></script>
         <script type="text/javascript">
             $(function() {
-                        var imagem = 'test.jpg';
+                        var imagem = 'img-test.jpg';
                         $("#cropper").cropper({
                             imageOriginal : imagem,
+                            aspectRatio:false,
                             onsave   : function(finalFile) {
+                                $('#imagemFinal').html('<img src='+finalFile+' />');
+                            },
+                            oncancel   : function(finalFile) {
                                 $('#imagemFinal').html('<img src='+finalFile+' />');
                             }
                         });                

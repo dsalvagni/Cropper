@@ -170,8 +170,8 @@
             }
 
 
-            var top = (Math.round(imgH/2)+20);
-            var left = (Math.round(imgW/2)+20);
+            var top = (Math.round(imgH/2));
+            var left = (Math.round(imgW/2)+10);
             var boxImgW = $('.cropper-box-img').width();
             var boxImgH = $('.cropper-box-img').height();
             var newTop = (boxImgH/2)-(top);

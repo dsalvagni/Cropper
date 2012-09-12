@@ -169,14 +169,22 @@
                 imgH=$('.cropper-crop').height();   
             }
 
-            var _margin = '-'+(Math.round(imgH/2)+10)+'px 0 0 -'+((Math.round(imgW)/2)+10)+'px';
+
+            var top = (Math.round(imgH/2)+20);
+            var left = (Math.round(imgW/2)+20);
+            var boxImgW = $('.cropper-box-img').width();
+            var boxImgH = $('.cropper-box-img').height();
+            var newTop = (boxImgH/2)-(top);
+            var newLeft = (boxImgW/2)-(left);
+
+            var _margin = newTop+'px 0 0 '+newLeft+'px';
             
             var _img = '<img src="'+_url+'" class="cropper-box-img-img" style="width:'+imgW+'px; height:'+imgH+'px;" />';
 
-            var _html = '<div class="cropper-shadow-pre" id="cropper-shadow-pre"></div><div class="cropper-modal-pre" id="cropper-modal-pre" style="margin:'+_margin+'; width:'+imgW+'px; height:'+imgH+'px;">'+_img+'</div>';
+            var _html = '<div class="cropper-shadow-pre" id="cropper-shadow-pre"><div class="cropper-modal-pre" id="cropper-modal-pre" style="margin:'+_margin+'; width:'+imgW+'px; height:'+imgH+'px;">'+_img+'</div></div>';
 
 //            if(!document.getElementById('cropper-modal-pre')){
-                $('body').append(_html);
+                $('.cropper-box-img').append(_html);
                 $('#cropper-shadow-pre,#cropper-btn-edit').live('click',function() {
                     $('#cropper-box-options').hide();
                     $('#cropper-shadow-pre,#cropper-modal-pre').remove();

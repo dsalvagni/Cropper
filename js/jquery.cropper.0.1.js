@@ -19,7 +19,7 @@
        
         options = $.extend(defaults, options);
         
-        var closeCropperCropper = function() {
+        var closeCropper = function() {
             $('#cropper').html('');
             $('#cropper-shadow-pre,#cropper-modal-pre,#cropper-box-options').remove();
             
@@ -50,7 +50,7 @@
             //Left
             _html += '<div class="cropper-left-top-bar">';
             _html += '<div class="cropper-slider-value">';
-            _html += '<input type="text" id="cropper-image-zoom" class="cropper-input" />';
+            _html += '<input type="text" id="cropper-image-zoom" class="cropper-input" readonly/>';
             _html += '</div>';
             _html += '<div class="cropper-slider">';
             _html += '<div id="cropper-slider-image"></div>';
@@ -95,11 +95,13 @@
             //CROP
             $( ".cropper-crop" ).resizable({
                 aspectRatio: options.aspectRatio,
-                containment:'parent'
+                containment:'parent',
+                handles:"n, e, s, w, ne, se, sw, nw"
             });
             $('.cropper-crop').width(options.width+'px').height(options.height+'px');
             $( ".cropper-crop" ).draggable({
-                containment:'parent'
+                containment:'parent',
+                scroll:false
             });
             //SLIDER ZOOM IMAGEM
             $( "#cropper-slider-image" ).slider({
@@ -123,10 +125,15 @@
             var boxImgH = $('.cropper-box-img').height();
             var newTop = (boxImgH/2)-(h/2);
             var newLeft = (boxImgW/2)-(w/2);
+            var newCropTop = (boxImgH/2)-(options.height/2);
+            var newCropLeft = (boxImgW/2)-(options.width/2);
+
             $('#cropper-img').css('top',(newTop)+'px');
             $('#cropper-img').css('left',(newLeft)+'px');    
+
+            $('.cropper-crop').css('top',(newCropTop)+'px');
+            $('.cropper-crop').css('left',(newCropLeft)+'px');  
         }
-        
         //Altera o tamanho da imagem com o slider de zoom
         var resize = function(percent,w,h){
             var newW = (w*percent)/100;

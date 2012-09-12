@@ -32,8 +32,7 @@
 .cropper-draggable {cursor: move;}
 
 .cropper-shadow-pre {
-    background-color:#000; 
-    opacity: 0.95; 
+    background-color:#000;
 }
 .cropper-modal-pre {
     background-color:#FFF; 
@@ -41,15 +40,10 @@
     background-position: center center;
     background-repeat: no-repeat;
     border:10px solid #FFF; 
-    box-shadow:2px 2px 4px #000;
 }
 
 .cropper-options {
     background-color:#F1F1F1;
-    box-shadow:2px 2px 4px #000;
-    border-bottom:1px solid #FFF;
-    border-right:1px solid #FFF;
-
 }
 
 #cropper-btn-salvar { }

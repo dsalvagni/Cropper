@@ -21,7 +21,7 @@ Defaults
     var defaults = {
         width           : 200,
         height          : 200,
-        aspectRatio     : true,
+        aspectRatio     : false,
         imageOriginal   : null,
         imageFinal      : null,
         getWH           : 'getWH.php',
